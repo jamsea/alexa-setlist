@@ -29,8 +29,18 @@ const STOP_MESSAGE = 'See ya later alligator!';
 //TODO: Replace this data with your own.  You can find translations of this data at http://github.com/alexa/skill-sample-node-js-fact/data
 //=========================================================================================================================================
 const data = [
-    'Closer, The Hands that Feeds'
+    'Burn the Disco Floor with Your 2-step', 
+    'Play Video',
+    'Greedy',
+    'Play Video',
+    'Return to Zero',
+    'Play Video',
+    'Treasure in Your Hands',
+    'Play Video',
+    'LLLD'
 ];
+
+
 
 //=========================================================================================================================================
 //Editing anything below this line might break your skill.
@@ -41,13 +51,9 @@ const handlers = {
         this.emit('GetNewFactIntent');
     },
     'GetSetlistIntent': function () {
-        const randomFact = data[0];
-        const speechOutput = GET_FACT_MESSAGE + randomFact;
-
-        console.log('--- STUFF: ', this.event.request.intent);
-
-        this.response.cardRenderer(SKILL_NAME, randomFact);
-        this.response.speak(speechOutput + ' ' + this.event.request.intent.slots.band.value);
+        const speechOutput = `This is ${this.event.request.intent.slots.band.value}'s setlist: ${data.join(',')}`;
+        this.response.cardRenderer(SKILL_NAME, speechOutput);
+        this.response.speak(speechOutput);
         this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
@@ -68,9 +74,6 @@ const handlers = {
 };
 
 exports.handler = function (event, context, callback) {
-    console.log('event: ', event);
-    console.log('-- band: ', event.request.intent.slots.band);
-    console.log('context: ', context);
     const alexa = Alexa.handler(event, context, callback);
     alexa.APP_ID = APP_ID;
     alexa.registerHandlers(handlers);
