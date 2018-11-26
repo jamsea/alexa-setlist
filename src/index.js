@@ -44,8 +44,10 @@ const handlers = {
         const randomFact = data[0];
         const speechOutput = GET_FACT_MESSAGE + randomFact;
 
+        console.log('--- STUFF: ', this.event.request.intent);
+
         this.response.cardRenderer(SKILL_NAME, randomFact);
-        this.response.speak(speechOutput);
+        this.response.speak(speechOutput + ' ' + this.event.request.intent.slots.band.value);
         this.emit(':responseReady');
     },
     'AMAZON.HelpIntent': function () {
@@ -66,6 +68,9 @@ const handlers = {
 };
 
 exports.handler = function (event, context, callback) {
+    console.log('event: ', event);
+    console.log('-- band: ', event.request.intent.slots.band);
+    console.log('context: ', context);
     const alexa = Alexa.handler(event, context, callback);
     alexa.APP_ID = APP_ID;
     alexa.registerHandlers(handlers);
